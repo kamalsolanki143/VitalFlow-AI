@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
-from database.escalation_db import create_escalation, get_escalations
-from models.escalation import Escalation
+from backend.database.escalation_db import create_escalation, get_escalations
+from backend.models.escalation import Escalation
 
 router = APIRouter(prefix="/api/escalations", tags=["escalations"])
 

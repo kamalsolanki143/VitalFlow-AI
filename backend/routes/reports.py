@@ -2,15 +2,16 @@ from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException, status
 
-from database.escalation_db import create_escalation
-from database.report_db import (
+from backend.database.escalation_db import create_escalation
+
+from backend.database.report_db import (
     create_report,
     get_report,
     list_reports,
     update_report,
 )
-from models.escalation import Escalation
-from models.report import Report, ReportUpdate
+from backend.models.escalation import Escalation
+from backend.models.report import Report, ReportUpdate
 
 router = APIRouter(prefix="/api/reports", tags=["reports"])
 

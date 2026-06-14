@@ -2,8 +2,8 @@ from typing import Any
 
 from pymongo.errors import PyMongoError
 
-from database.connection import patients_collection
-from models.patient import Patient, PatientUpdate
+from backend.database.connection import patients_collection
+from backend.models.patient import Patient, PatientUpdate
 
 
 def _clean_document(document: dict[str, Any] | None) -> dict[str, Any] | None:
