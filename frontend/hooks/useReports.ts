@@ -7,8 +7,8 @@ export function useReports() {
     revalidateOnFocus: true,
   })
 
-  console.log("REPORTS DATA =", data)
-  console.log("REPORTS ERROR =", error)
+  //console.log("REPORTS DATA =", data)
+  //console.log("REPORTS ERROR =", error)
 
   return {
     reports: data ?? [],
