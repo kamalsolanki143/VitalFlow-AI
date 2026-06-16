@@ -3,8 +3,8 @@ from typing import Any
 from pymongo import DESCENDING
 from pymongo.errors import PyMongoError
 
-from backend.database.connection import reports_collection
-from backend.models.report import Report, ReportUpdate
+from database.connection import reports_collection
+from models.report import Report, ReportUpdate
 
 def _clean_document(document: dict[str, Any] | None) -> dict[str, Any] | None:
     if document is None:

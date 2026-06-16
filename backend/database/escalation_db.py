@@ -3,8 +3,8 @@ from typing import Any
 from pymongo import DESCENDING
 from pymongo.errors import PyMongoError
 
-from backend.database.connection import escalations_collection
-from backend.models.escalation import Escalation
+from database.connection import escalations_collection
+from models.escalation import Escalation
 
 
 def _clean_document(document: dict[str, Any] | None) -> dict[str, Any] | None:

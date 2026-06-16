@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.routes import escalations, followups, health, reports
+from routes import escalations, followups, health, reports
 
 app = FastAPI(
     title="VitalFlow AI",

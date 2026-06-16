@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
-from backend.database.followup_db import get_followups, update_followup
-from backend.models.followup import FollowupUpdate
+from database.followup_db import get_followups, update_followup
+from models.followup import FollowupUpdate
 
 router = APIRouter(prefix="/api/followups", tags=["followups"])
 
