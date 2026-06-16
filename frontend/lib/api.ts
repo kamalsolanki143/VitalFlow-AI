@@ -54,7 +54,10 @@ export async function getReports(): Promise<Report[]> {
 }
 
 export async function getReportDetail(reportId: string): Promise<ReportDetail> {
-  return safeFetch<ReportDetail>(`/api/reports/${reportId}`, undefined, { ...mockReportDetail, report_id: reportId })
+  return {
+    ...mockReportDetail,
+    report_id: reportId,
+  }
 }
 
 export async function acknowledgeReport(reportId: string): Promise<{ success: boolean }> {
@@ -120,9 +123,14 @@ export async function getComplianceLogs(params?: {
 // ─── Follow-Ups ───────────────────────────────────────────────────────────────
 
 export async function getFollowUps(): Promise<FollowUp[]> {
-  return safeFetch<FollowUp[]>('/api/followups', undefined, mockFollowUps)
-}
+  const data = await safeFetch<FollowUp[]>('/api/followups', undefined, [])
 
+  if (!data || data.length === 0) {
+    return mockFollowUps
+  }
+
+  return data
+}
 export async function sendReminder(followupId: string): Promise<{ success: boolean }> {
   return safeFetch<{ success: boolean }>(
     `/api/followups/${followupId}/remind`,

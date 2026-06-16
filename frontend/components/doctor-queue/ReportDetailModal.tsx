@@ -18,7 +18,7 @@ interface ReportDetailModalProps {
   onAcknowledged?: () => void
 }
 
-function AgentTimeline({ steps }: { steps: AgentStep[] }) {
+function AgentTimeline({ steps = [] }: { steps?: AgentStep[] }) {
   return (
     <div style={{ padding: '8px 0' }}>
       {steps.map((step, idx) => (
@@ -74,7 +74,7 @@ function AgentTimeline({ steps }: { steps: AgentStep[] }) {
   )
 }
 
-function AbnormalFlagsTable({ flags }: { flags: AbnormalFlag[] }) {
+function AbnormalFlagsTable({ flags = [] }: { flags?: AbnormalFlag[] }) {
   return (
     <div style={{ overflowX: 'auto' }}>
       <table className="vf-table" style={{ fontSize: 12 }}>
@@ -89,48 +89,114 @@ function AbnormalFlagsTable({ flags }: { flags: AbnormalFlag[] }) {
             <th>Action</th>
           </tr>
         </thead>
+
         <tbody>
-          {flags.map((flag, idx) => {
-            const deviationColor =
-              flag.deviation_percent > 500 ? '#ef4444' :
-              flag.deviation_percent > 100 ? '#f59e0b' : '#22c55e'
-            return (
-              <tr key={idx}>
-                <td style={{ fontWeight: 600, fontSize: 12 }}>{flag.test_name}</td>
-                <td>
-                  <span className="mono" style={{ color: deviationColor, fontWeight: 700 }}>
-                    {flag.value} {flag.unit}
-                  </span>
-                </td>
-                <td style={{ color: 'var(--text-muted)' }}>{flag.reference_range}</td>
-                <td>
-                  <span className="mono" style={{ color: deviationColor, fontWeight: 600 }}>
-                    +{flag.deviation_percent}%
-                  </span>
-                </td>
-                <td>
-                  <span
-                    className="badge"
+          {flags.length === 0 ? (
+            <tr>
+              <td
+                colSpan={7}
+                style={{
+                  textAlign: 'center',
+                  padding: '20px',
+                  color: 'var(--text-muted)',
+                }}
+              >
+                No abnormal flags available
+              </td>
+            </tr>
+          ) : (
+            flags.map((flag, idx) => {
+              const deviationColor =
+                flag.deviation_percent > 500
+                  ? '#ef4444'
+                  : flag.deviation_percent > 100
+                  ? '#f59e0b'
+                  : '#22c55e'
+
+              return (
+                <tr key={idx}>
+                  <td style={{ fontWeight: 600, fontSize: 12 }}>
+                    {flag.test_name}
+                  </td>
+
+                  <td>
+                    <span
+                      className="mono"
+                      style={{
+                        color: deviationColor,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {flag.value} {flag.unit}
+                    </span>
+                  </td>
+
+                  <td style={{ color: 'var(--text-muted)' }}>
+                    {flag.reference_range}
+                  </td>
+
+                  <td>
+                    <span
+                      className="mono"
+                      style={{
+                        color: deviationColor,
+                        fontWeight: 600,
+                      }}
+                    >
+                      +{flag.deviation_percent}%
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      className="badge"
+                      style={{
+                        background:
+                          flag.risk_level === 'Critical'
+                            ? 'rgba(239,68,68,0.15)'
+                            : 'rgba(245,158,11,0.15)',
+                        color:
+                          flag.risk_level === 'Critical'
+                            ? '#f87171'
+                            : '#fbbf24',
+                        border: `1px solid ${
+                          flag.risk_level === 'Critical'
+                            ? 'rgba(239,68,68,0.3)'
+                            : 'rgba(245,158,11,0.3)'
+                        }`,
+                      }}
+                    >
+                      {flag.risk_level}
+                    </span>
+                  </td>
+
+                  <td
                     style={{
-                      background: flag.risk_level === 'Critical' ? 'rgba(239,68,68,0.15)' : 'rgba(245,158,11,0.15)',
-                      color: flag.risk_level === 'Critical' ? '#f87171' : '#fbbf24',
-                      border: `1px solid ${flag.risk_level === 'Critical' ? 'rgba(239,68,68,0.3)' : 'rgba(245,158,11,0.3)'}`,
+                      fontSize: 11,
+                      color: 'var(--text-muted)',
+                      maxWidth: 160,
                     }}
                   >
-                    {flag.risk_level}
-                  </span>
-                </td>
-                <td style={{ fontSize: 11, color: 'var(--text-muted)', maxWidth: 160 }}>{flag.possible_concern}</td>
-                <td style={{ fontSize: 11, color: '#60a5fa' }}>{flag.suggested_action}</td>
-              </tr>
-            )
-          })}
+                    {flag.possible_concern}
+                  </td>
+
+                  <td
+                    style={{
+                      fontSize: 11,
+                      color: '#60a5fa',
+                    }}
+                  >
+                    {flag.suggested_action}
+                  </td>
+                </tr>
+              )
+            })
+          )}
         </tbody>
       </table>
     </div>
   )
 }
-
 function SectionTitle({ icon: Icon, label }: { icon: React.ComponentType<{ size: number; color: string }>, label: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, marginTop: 20 }}>
@@ -317,7 +383,7 @@ export default function ReportDetailModal({ reportId, onClose, onAcknowledged }:
                   overflow: 'hidden',
                 }}
               >
-                <AbnormalFlagsTable flags={report.abnormal_flags} />
+                <AbnormalFlagsTable flags={report.abnormal_flags ?? []} />
               </div>
 
               {/* Explainability */}
@@ -362,7 +428,7 @@ export default function ReportDetailModal({ reportId, onClose, onAcknowledged }:
                   padding: '0 16px',
                 }}
               >
-                <AgentTimeline steps={report.agent_pipeline} />
+                <AgentTimeline steps={report.agent_pipeline ?? []} />
               </div>
             </>
           ) : null}

@@ -6,6 +6,10 @@ export function useReports() {
     refreshInterval: 10000,
     revalidateOnFocus: true,
   })
+
+  console.log("REPORTS DATA =", data)
+  console.log("REPORTS ERROR =", error)
+
   return {
     reports: data ?? [],
     isLoading,

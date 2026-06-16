@@ -68,9 +68,11 @@ export default function RiskPriorityTable({ reports, isLoading, onViewReport }: 
                 return (
                   <tr key={report.report_id} className={getRowClass(report.urgency)}>
                     <td>
-                      <div style={{ fontWeight: 500, fontSize: 13 }}>{report.patient_name}</div>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                        {report.patient_id} · Age {report.patient_age}
+                      <div style={{ fontWeight: 500, fontSize: 13 }}>
+                        {report.patient_id}
+                      </div>
+                     <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                        {report.report_type}
                       </div>
                     </td>
                     <td style={{ color: 'var(--text-muted)', fontSize: 12 }}>{report.report_type}</td>
