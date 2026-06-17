@@ -13,7 +13,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://vital-flow-ai-azure.vercel.app",
+        "https://vital-flow-ai-azure.vercel.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
